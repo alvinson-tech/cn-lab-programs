@@ -1,27 +1,35 @@
-import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
 public class DNSClient {
     public static void main(String[] args) throws Exception {
+        // Create scanner for user input
         Scanner sc = new Scanner(System.in);
         
-        // Connect to server
-        Socket socket = new Socket("localhost", 5000);
+        // Create UDP socket
+        DatagramSocket socket = new DatagramSocket();
         
-        // Setup input/output streams
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        
-        // Send hostname
+        // Get hostname from user
         System.out.print("Enter hostname: ");
         String hostname = sc.nextLine();
-        out.println(hostname);
         
-        // Receive IP address
-        String ip = in.readLine();
+        // Send hostname to server
+        byte[] sendData = hostname.getBytes();
+        DatagramPacket sendPacket = new DatagramPacket(
+            sendData, sendData.length,
+            InetAddress.getLocalHost(), 8000
+        );
+        socket.send(sendPacket);
+        
+        // Receive IP address from server
+        byte[] receiveData = new byte[1024];
+        DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+        socket.receive(receivePacket);
+        
+        String ip = new String(receivePacket.getData()).trim();
         System.out.println("IP Address: " + ip);
         
+        // Close connections
         socket.close();
         sc.close();
     }

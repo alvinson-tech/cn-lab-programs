@@ -1,8 +1,8 @@
 //FileClient.java
 
-import java.io.*;
+import java.io.*; 
 import java.net.*;
-
+ 
 public class FileClient {
     public static void main(String[] args) throws Exception {
         Socket s = new Socket("localhost", 8080);
