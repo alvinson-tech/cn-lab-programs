@@ -1,5 +1,4 @@
 // WRITE A PROGRAM FOR ERROR DETECTING CODE USING CRC-CCITT (16- BITS)
-
 import java.util.Scanner;
 
 public class CRC {
@@ -36,16 +35,20 @@ public class CRC {
     }
 
     static String calculateCRC(String data, String generator) {
-    char[] bits = data.toCharArray();
-    int gLen = generator.length();
-    
-        for (int i = 0; i <= bits.length - gLen; i++) {
+        char[] bits = data.toCharArray();
+        
+        for (int i = 0; i <= bits.length - generator.length(); i++) {
             if (bits[i] == '1') {
-                for (int j = 0; j < gLen; j++) {
-                    bits[i + j] = (bits[i + j] == generator.charAt(j)) ? '0' : '1';
+                for (int j = 0; j < generator.length(); j++) {
+                    if (bits[i + j] == generator.charAt(j)) {
+                        bits[i + j] = '0';
+                    } else {
+                        bits[i + j] = '1';
+                    }
                 }
             }
         }
-        return new String(bits, bits.length - gLen + 1, gLen - 1);
+        
+        return new String(bits).substring(bits.length - generator.length() + 1);
     }
 }

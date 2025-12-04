@@ -1,7 +1,7 @@
 set ns [new Simulator]
-set nf [open PA2.nam w]
+set nf [open PA1.nam w]
 $ns namtrace-all $nf
-set tf [open PA2.tr w]
+set tf [open PA1.tr w]
 $ns trace-all $tf
 
 proc finish {} {
@@ -9,7 +9,7 @@ proc finish {} {
     $ns flush-trace
     close $nf
     close $tf
-    exec nam PA2.nam &
+    exec nam PA1.nam &
     exit 0
 }
 
